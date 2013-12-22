@@ -1,5 +1,7 @@
 import org.jsoup.nodes.*;
-import java.text.DateFormat;;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /* Responsible for pulling out the interesting chunks
  * from odb.org.  JSoup does the heavy lifting.
@@ -7,15 +9,15 @@ import java.text.DateFormat;;
 
 public abstract class ODBGetter {
 	
-	public static String getTitle(DateFormat date) {
+	public static String getTitle(Calendar date) {
 		return "blah";
 	}
 	
-	private static String dateToURL(DateFormat date){
+	private static String dateToURL(Calendar date){
 		String year, month, day;
-		year = Integer.toString(date.YEAR_FIELD);
-		month = Integer.toString(date.MONTH_FIELD);
-		day = Integer.toString(date.DATE_FIELD);
+		year = Integer.toString(date.get(Calendar.YEAR));
+		month = Integer.toString(date.get(Calendar.MONTH));
+		day = Integer.toString(date.get(Calendar.DATE));
 		
 		return odbURL+"/"+year+"/"+month+"/"+day+"/";
 	}
