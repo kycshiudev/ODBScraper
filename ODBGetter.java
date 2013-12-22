@@ -13,7 +13,7 @@ public abstract class ODBGetter {
 		return "blah";
 	}
 	
-	private static String dateToURL(Calendar date){
+	public static String dateToURL(Calendar date){
 		String year, month, day;
 		year = Integer.toString(date.get(Calendar.YEAR));
 		month = Integer.toString(date.get(Calendar.MONTH));

@@ -1,6 +1,7 @@
 import org.jsoup.*;
 import org.jsoup.nodes.*;
 import java.text.DateFormat;
+import java.util.Calendar;
 
 public class ODBScrapper{
 
@@ -43,13 +44,23 @@ public class ODBScrapper{
 	/* Try ODBGetter methods
 	 */
 	static void ODBGetterExamples(){
-	
+		Calendar cal = Calendar.getInstance();
+		cal.clear();
+		cal.set(2013, 11, 21);
+		
+		System.out.println(cal.get(Calendar.YEAR));
+		System.out.println(cal.get(Calendar.MONTH));
+		System.out.println(cal.get(Calendar.DATE));
+		
+		System.out.println(ODBGetter.dateToURL(cal));
 	}
 	
 	public static void main (String[] args)
 	{
 		//example1();
 		//example2();
+		
+		ODBGetterExamples();
 	}
 	
 }
