@@ -9,14 +9,19 @@ import java.util.Date;
 
 public abstract class ODBGetter {
 	
+	/* Get title of the ODB article for the provided date
+	 */
 	public static String getTitle(Calendar date) {
 		return "blah";
 	}
 	
+	/* Using standardized Java date objects, create String representation
+	 * of the ODB URL we need
+	 */
 	private static String dateToURL(Calendar date){
 		String year, month, day;
 		year = Integer.toString(date.get(Calendar.YEAR));
-		month = Integer.toString(date.get(Calendar.MONTH));
+		month = Integer.toString(date.get(Calendar.MONTH) + 1);
 		day = Integer.toString(date.get(Calendar.DATE));
 		
 		return odbURL+"/"+year+"/"+month+"/"+day+"/";
