@@ -1,3 +1,4 @@
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -12,7 +13,9 @@ public abstract class ODBGetter {
 	/* Get title of the ODB article for the provided date
 	 */
 	public static String getTitle(Calendar date) {
-		return "blah";
+		Document siteAtDate = Jsoup.parse(dateToURL(date));
+		Element titleContainer = siteAtDate.select("h3[class=entry-title]").first();
+		return titleContainer.childNode(0).nodeName();
 	}
 	
 	/* Using standardized Java date objects, create String representation
