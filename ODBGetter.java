@@ -13,9 +13,16 @@ public abstract class ODBGetter {
 	/* Get title of the ODB article for the provided date
 	 */
 	public static String getTitle(Calendar date) {
-		Document siteAtDate = Jsoup.parse(dateToURL(date));
-		Element titleContainer = siteAtDate.select("h3[class=entry-title]").first();
-		return titleContainer.childNode(0).nodeName();
+		Document siteAtDate;
+		try{
+			siteAtDate = Jsoup.connect(dateToURL(date)).get();
+			Element titleContainer = siteAtDate.select("h3[class=entry-title]").first();
+			Node titleNode = titleContainer.childNode(1);
+			return titleNode.unwrap().toString();
+		}
+		catch (Exception e){
+			return null;
+		}
 	}
 	
 	/* Using standardized Java date objects, create String representation
@@ -30,6 +37,6 @@ public abstract class ODBGetter {
 		return odbURL+"/"+year+"/"+month+"/"+day+"/";
 	}
 	
-	private static String odbURL = "odb.org";
+	private static String odbURL = "http://odb.org";
 }
 
