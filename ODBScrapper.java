@@ -46,7 +46,7 @@ public class ODBScrapper{
 	static void ODBGetterExamples(){
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
-		cal.set(2013, 11, 23);
+		cal.set(2013, 11, 1);
 		
 		System.out.println(cal.get(Calendar.YEAR));
 		System.out.println(cal.get(Calendar.MONTH));
