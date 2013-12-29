@@ -41,6 +41,20 @@ public class ODBMonth {
 		return links_by_month.get(cal_date.get(Calendar.DATE));
 	}
 	
+	public boolean sameMonth(Calendar cal_date) {
+		boolean month_match, year_match;
+		Calendar my_date = this.month_as_calendar;
+		
+		month_match = my_date.get(Calendar.MONTH) == cal_date.get(Calendar.MONTH);
+		year_match = my_date.get(Calendar.YEAR) == cal_date.get(Calendar.YEAR);
+		
+		return month_match && year_match;
+	}
+	
+	public boolean sameMonth(ODBMonth other) {
+		return this.sameMonth(other.month_as_calendar);
+	}
+	
 	/* Used by the constructor to extract the Document from the ODB page for 
 	 * the month given by cal_date.
 	 */

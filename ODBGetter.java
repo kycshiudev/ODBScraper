@@ -57,11 +57,18 @@ public abstract class ODBGetter {
 	
 	/* Sets the page so we don't have to reconnect each time.
 	 */
-	public static boolean setPage(Calendar date){
+	public static boolean setPage(Calendar cal_date){
 		boolean ret_connected = false;
 		
+		// need to set month
+		if ( (current_odb_month == null) || (!current_odb_month.sameMonth(cal_date)) ) {
+			current_odb_month = new ODBMonth(cal_date);
+		}
+		
+		// make connection to ODB article for the date
 		try{
-			
+			current_page = Jsoup.connect(current_odb_month.urlForDate(cal_date)).get();
+			ret_connected = true;
 		}
 		catch (Exception e){
 			System.out.println("--Connection error: "+e.getMessage());
@@ -70,42 +77,9 @@ public abstract class ODBGetter {
 		return ret_connected;
 	}
 	
-	/* Fills arrray of links with the appropriate link.  Indexed by date.
-	 * Return true or false based on success of connection
-	 */
-	public static boolean populateLinksByMonth(Calendar date){
-		String date_format_str, year, month, month_url;
-		Elements links_elements;
-		
-		SimpleDateFormat date_format = new SimpleDateFormat("yyyyMM");
-		date_format_str = date_format.format(date.getTime());
-		year = date_format_str.substring(0, 4);
-		month = date_format_str.substring(4, 6);
-		month_url = ODB_URL+year+"/"+month+"/";
-
-		// connect and detect errors
-		try{
-			Document month_page = Jsoup.connect(month_url).get();
-			links_elements = month_page.select("a[href^="+month_url+"]");
-		}
-		catch (IOException e){
-			// put better error handling here later.  probably pass the error up.
-			System.out.println("--Connection error: "+e.getMessage());
-			return false;
-		}
-		
-		// parse through links
-		for (int date_index = 0; date_index < links_elements.size(); date_index++){
-			links_by_month[date_index] = links_elements.get(date_index).attr("href");
-			System.out.println("Debug: "+date_index+" - "+links_by_month[date_index]);
-		}
-		
-		return true;
-	}
-	
 	private static final String ODB_URL = "http://odb.org/";
-	private static Document current_page;
-	private static Calendar current_date;
-	private static String[] links_by_month = new String[31]; //later create ODBCalendar that handles storing and giving links
+	private static Document current_page = null;
+	private static Calendar current_date = null;
+	private static ODBMonth current_odb_month = null;
 }
 

@@ -83,7 +83,7 @@ public class ODBScrapper{
 		//example2();
 		
 		ODBGetterExamples();
-		ODBMonthExamples();
+		//ODBMonthExamples();
 	}
 	
 }
