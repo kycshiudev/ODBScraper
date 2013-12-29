@@ -18,7 +18,7 @@ public class ODBMonth {
 	 * public created_successfully parameter will tell anyone who's interested
 	 * whether or not we were able to connect and create our month abstraction.
 	 */
-	public ODBMonth(Calendar cal_date){
+	public ODBMonth(Calendar cal_date) {
 		Document month_page;
 		month_as_calendar = (Calendar) cal_date.clone();
 		
@@ -30,6 +30,15 @@ public class ODBMonth {
 		
 		populateLinksByMonth(cal_date, month_page);
 		created_successfully = true;
+	}
+	
+	// these need better error checking later
+	public String urlForDate(int date) {
+		return links_by_month.get(date);
+	}
+	
+	public String urlForDate(Calendar cal_date) {
+		return links_by_month.get(cal_date.get(Calendar.DATE));
 	}
 	
 	/* Used by the constructor to extract the Document from the ODB page for 
@@ -77,13 +86,8 @@ public class ODBMonth {
 			full_date_str = full_date_format.format(cal_date.getTime()); 
 			Node link_node = month_page.select("a[href^="+ODB_URL+full_date_str+"]").first();
 			links_by_month.add(link_node.attr("href"));
-			
-			current_date = cal_date.get(Calendar.DATE);
-			System.out.println("Debug: "+current_date+" - "+links_by_month.get(current_date));
-			
 			cal_date.add(Calendar.DATE, 1);
 		}
-
 	}
 	
 	public boolean created_successfully;

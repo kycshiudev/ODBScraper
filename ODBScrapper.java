@@ -73,6 +73,8 @@ public class ODBScrapper{
 		ODBMonth testMonth = new ODBMonth(cal);
 		System.out.println("Month_as_Calendar: "+testMonth.month_as_calendar.get(Calendar.MONTH) 
 				+ "/" +testMonth.month_as_calendar.get(Calendar.DATE));
+		System.out.println(testMonth.urlForDate(cal));
+		System.out.println(testMonth.urlForDate(9));
 	}
 	
 	public static void main (String[] args)
