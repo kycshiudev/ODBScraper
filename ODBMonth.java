@@ -20,6 +20,7 @@ public class ODBMonth {
 	 */
 	public ODBMonth(Calendar cal_date){
 		Document month_page;
+		month_as_calendar = (Calendar) cal_date.clone();
 		
 		month_page = connectToMonthPage(cal_date);
 		if (month_page == null) {
@@ -86,6 +87,8 @@ public class ODBMonth {
 	}
 	
 	public boolean created_successfully;
+	public Calendar month_as_calendar;
+	
 	private static final String ODB_URL = "http://odb.org/";
 	private static final short MONTH_CAPACITY = 31;
 	private static final short CONNECT_RETRIES = 5;

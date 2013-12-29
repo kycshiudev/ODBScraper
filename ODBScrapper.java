@@ -71,6 +71,8 @@ public class ODBScrapper{
 	
 		// populate links by month
 		ODBMonth testMonth = new ODBMonth(cal);
+		System.out.println("Month_as_Calendar: "+testMonth.month_as_calendar.get(Calendar.MONTH) 
+				+ "/" +testMonth.month_as_calendar.get(Calendar.DATE));
 	}
 	
 	public static void main (String[] args)
