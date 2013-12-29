@@ -2,6 +2,7 @@ import org.jsoup.*;
 import org.jsoup.nodes.*;
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class ODBScrapper{
 
@@ -46,8 +47,8 @@ public class ODBScrapper{
 	static void ODBGetterExamples(){
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
-		cal.set(2013, 11, 1);
-		
+		cal.set(2013, 1, 1);
+	
 		System.out.println(cal.get(Calendar.YEAR));
 		System.out.println(cal.get(Calendar.MONTH));
 		System.out.println(cal.get(Calendar.DATE));
@@ -58,8 +59,18 @@ public class ODBScrapper{
 		// title
 		System.out.println(ODBGetter.getTitle(cal));
 		
+		
+	}
+	
+	/* Try ODBMonth methods
+	 */
+	static void ODBMonthExamples() {
+		Calendar cal = Calendar.getInstance();
+		cal.clear();
+		cal.set(2013, 1, 1);
+	
 		// populate links by month
-		ODBGetter.populateLinksByMonth(cal);
+		ODBMonth testMonth = new ODBMonth(cal);
 	}
 	
 	public static void main (String[] args)
@@ -68,6 +79,7 @@ public class ODBScrapper{
 		//example2();
 		
 		ODBGetterExamples();
+		ODBMonthExamples();
 	}
 	
 }

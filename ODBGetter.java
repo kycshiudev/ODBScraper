@@ -1,7 +1,7 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
 import org.jsoup.select.Elements;
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,7 +39,7 @@ public abstract class ODBGetter {
 		year = date_format_str.substring(0, 4);
 		month = date_format_str.substring(4, 6);
 		day = date_format_str.substring(6, 8);
-		month_url = odb_url+year+"/"+month+"/";
+		month_url = ODB_URL+year+"/"+month+"/";
 		sub_url = month_url+day+"/";
 		
 		try{
@@ -81,7 +81,7 @@ public abstract class ODBGetter {
 		date_format_str = date_format.format(date.getTime());
 		year = date_format_str.substring(0, 4);
 		month = date_format_str.substring(4, 6);
-		month_url = odb_url+year+"/"+month+"/";
+		month_url = ODB_URL+year+"/"+month+"/";
 
 		// connect and detect errors
 		try{
@@ -103,8 +103,7 @@ public abstract class ODBGetter {
 		return true;
 	}
 	
-	
-	private static final String odb_url = "http://odb.org/";
+	private static final String ODB_URL = "http://odb.org/";
 	private static Document current_page;
 	private static Calendar current_date;
 	private static String[] links_by_month = new String[31]; //later create ODBCalendar that handles storing and giving links
