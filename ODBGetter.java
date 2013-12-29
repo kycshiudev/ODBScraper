@@ -1,9 +1,11 @@
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.*;
+import org.jsoup.select.Elements;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.io.IOException;
 
 /* Responsible for pulling out the interesting chunks
  * from odb.org.  JSoup does the heavy lifting.
@@ -21,7 +23,7 @@ public abstract class ODBGetter {
 			Element titleContainer = siteAtDate.select("h1[class=entry-title]").first();
 			ret_title = titleContainer.unwrap().toString();
 		}
-		catch (Exception e){
+		catch (IOException e){
 			ret_title = null;
 		}
 		return ret_title;
@@ -42,12 +44,10 @@ public abstract class ODBGetter {
 		
 		try{
 			Document month_page = Jsoup.connect(month_url).get();
-			//Element odb_calendar = month_page.select("table[id=wp-calendar]").first();
 			Element url_link = month_page.select("a[href^="+sub_url+"]").first();
-			//System.out.println(url_link.attr("href"));
 			ret_url = url_link.attr("href");
 		}
-		catch (Exception e){
+		catch (IOException e){
 			// put better error handling here later.  probably pass the error up.
 			ret_url = null;
 		}
@@ -55,6 +55,58 @@ public abstract class ODBGetter {
 		return ret_url;
 	}
 	
-	private static String odb_url = "http://odb.org/";
+	/* Sets the page so we don't have to reconnect each time.
+	 */
+	public static boolean setPage(Calendar date){
+		boolean ret_connected = false;
+		
+		try{
+			
+		}
+		catch (Exception e){
+			System.out.println("--Connection error: "+e.getMessage());
+		}
+		
+		return ret_connected;
+	}
+	
+	/* Fills arrray of links with the appropriate link.  Indexed by date.
+	 * Return true or false based on success of connection
+	 */
+	public static boolean populateLinksByMonth(Calendar date){
+		String date_format_str, year, month, month_url;
+		Elements links_elements;
+		
+		SimpleDateFormat date_format = new SimpleDateFormat("yyyyMM");
+		date_format_str = date_format.format(date.getTime());
+		year = date_format_str.substring(0, 4);
+		month = date_format_str.substring(4, 6);
+		month_url = odb_url+year+"/"+month+"/";
+
+		// connect and detect errors
+		try{
+			Document month_page = Jsoup.connect(month_url).get();
+			links_elements = month_page.select("a[href^="+month_url+"]");
+		}
+		catch (IOException e){
+			// put better error handling here later.  probably pass the error up.
+			System.out.println("--Connection error: "+e.getMessage());
+			return false;
+		}
+		
+		// parse through links
+		for (int date_index = 0; date_index < links_elements.size(); date_index++){
+			links_by_month[date_index] = links_elements.get(date_index).attr("href");
+			System.out.println("Debug: "+date_index+" - "+links_by_month[date_index]);
+		}
+		
+		return true;
+	}
+	
+	
+	private static final String odb_url = "http://odb.org/";
+	private static Document current_page;
+	private static Calendar current_date;
+	private static String[] links_by_month = new String[31]; //later create ODBCalendar that handles storing and giving links
 }
 

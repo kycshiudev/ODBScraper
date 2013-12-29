@@ -52,10 +52,14 @@ public class ODBScrapper{
 		System.out.println(cal.get(Calendar.MONTH));
 		System.out.println(cal.get(Calendar.DATE));
 		
+		// date to url
 		System.out.println(ODBGetter.dateToURL(cal));
 		
 		// title
 		System.out.println(ODBGetter.getTitle(cal));
+		
+		// populate links by month
+		ODBGetter.populateLinksByMonth(cal);
 	}
 	
 	public static void main (String[] args)
