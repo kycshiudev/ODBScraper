@@ -15,17 +15,20 @@ public abstract class ODBGetter {
 	
 	/* Get title of the ODB article for the provided date
 	 */
-	public static String getTitle(Calendar date) {
-		Document siteAtDate;
+	public static String getTitle(Calendar cal_date) {
+		boolean successful_connect = true;
 		String ret_title;
-		try{
-			siteAtDate = Jsoup.connect(dateToURL(date)).get();
-			Element titleContainer = siteAtDate.select("h1[class=entry-title]").first();
-			ret_title = titleContainer.unwrap().toString();
+		
+		// check if we need to change the page
+		if ( !sameDate(cal_date, current_date) ) {
+			successful_connect = setPage(cal_date);
 		}
-		catch (IOException e){
-			ret_title = null;
+		if ( !successful_connect ) {
+			return null;
 		}
+		
+		Element titleContainer = current_page.select("h1[class=entry-title]").first();
+		ret_title = titleContainer.unwrap().toString();
 		return ret_title;
 	}
 	
@@ -66,18 +69,40 @@ public abstract class ODBGetter {
 		}
 		
 		// make connection to ODB article for the date
-		try{
-			current_page = Jsoup.connect(current_odb_month.urlForDate(cal_date)).get();
-			ret_connected = true;
-		}
-		catch (Exception e){
-			System.out.println("--Connection error: "+e.getMessage());
+		for (short tries = 0; tries < CONNECT_RETRIES; tries++) {
+			try{
+				current_page = Jsoup.connect(current_odb_month.urlForDate(cal_date)).get();
+				current_date = (Calendar) cal_date.clone();
+				ret_connected = true;
+				break;
+			}
+			catch (Exception e){
+				System.out.println("--Connection error: "+e.getMessage());
+			}
 		}
 		
 		return ret_connected;
 	}
 	
+	/* Helper for checking dates and ignoring unnecessary fields.
+	 */
+	private static boolean sameDate(Calendar date1, Calendar date2) {
+		boolean date_match, month_match, year_match;
+		
+		if ( (date1 == null) || (date2 == null) ) {
+			return false;
+		}
+		
+		date_match = date1.get(Calendar.DATE) == date2.get(Calendar.DATE);
+		month_match = date1.get(Calendar.MONTH) == date2.get(Calendar.MONTH);
+		year_match = date1.get(Calendar.YEAR) == date2.get(Calendar.YEAR);
+		
+		return date_match && month_match && year_match;
+	}
+	
 	private static final String ODB_URL = "http://odb.org/";
+	private static final short CONNECT_RETRIES = 5;
+	
 	private static Document current_page = null;
 	private static Calendar current_date = null;
 	private static ODBMonth current_odb_month = null;
