@@ -50,16 +50,12 @@ public class ODBScrapper{
 		cal.set(2013, 1, 1);
 	
 		System.out.println(cal.get(Calendar.YEAR));
-		System.out.println(cal.get(Calendar.MONTH));
+		System.out.println(cal.get(Calendar.MONTH)+1);
 		System.out.println(cal.get(Calendar.DATE));
 		
-		// date to url
-		System.out.println(ODBGetter.dateToURL(cal));
-		
-		// title
-		System.out.println(ODBGetter.getTitle(cal));
-		
-		
+		ODBGetter.setPage(cal);
+		System.out.println(ODBGetter.getTitle());
+		//System.out.println(ODBGetter.getPoem(cal));
 	}
 	
 	/* Try ODBMonth methods
@@ -71,8 +67,8 @@ public class ODBScrapper{
 	
 		// populate links by month
 		ODBMonth testMonth = new ODBMonth(cal);
-		System.out.println("Month_as_Calendar: "+testMonth.month_as_calendar.get(Calendar.MONTH) 
-				+ "/" +testMonth.month_as_calendar.get(Calendar.DATE));
+		System.out.println("Month_as_Calendar: "+testMonth.current_month.get(Calendar.MONTH) 
+				+ "/" +testMonth.current_month.get(Calendar.DATE));
 		System.out.println(testMonth.urlForDate(cal));
 		System.out.println(testMonth.urlForDate(9));
 	}

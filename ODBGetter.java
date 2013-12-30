@@ -13,49 +13,20 @@ import java.io.IOException;
 
 public abstract class ODBGetter {
 	
-	/* Get title of the ODB article for the provided date
+	/* Accessor for page_title
 	 */
-	public static String getTitle(Calendar cal_date) {
-		boolean successful_connect = true;
-		String ret_title;
-		
-		// check if we need to change the page
-		if ( !sameDate(cal_date, current_date) ) {
-			successful_connect = setPage(cal_date);
-		}
-		if ( !successful_connect ) {
-			return null;
-		}
-		
-		Element titleContainer = current_page.select("h1[class=entry-title]").first();
-		ret_title = titleContainer.unwrap().toString();
-		return ret_title;
+	public static String getTitle() {
+		return page_title;
 	}
 	
-	/* The take the url we need from the calendar on the odb page for that month.
+	/* Accessor for page_poem
 	 */
-	public static String dateToURL(Calendar date){
-		String date_format_str, year, month, 
-			day, month_url, sub_url, ret_url;
-		SimpleDateFormat date_format = new SimpleDateFormat("yyyyMMdd");
-		date_format_str = date_format.format(date.getTime());
-		year = date_format_str.substring(0, 4);
-		month = date_format_str.substring(4, 6);
-		day = date_format_str.substring(6, 8);
-		month_url = ODB_URL+year+"/"+month+"/";
-		sub_url = month_url+day+"/";
-		
-		try{
-			Document month_page = Jsoup.connect(month_url).get();
-			Element url_link = month_page.select("a[href^="+sub_url+"]").first();
-			ret_url = url_link.attr("href");
-		}
-		catch (IOException e){
-			// put better error handling here later.  probably pass the error up.
-			ret_url = null;
-		}
-		
-		return ret_url;
+	public static String getPoem() {
+		return page_poem;
+	}
+	
+	public static Calendar getDate() {
+		return current_date;
 	}
 	
 	/* Sets the page so we don't have to reconnect each time.
@@ -81,9 +52,46 @@ public abstract class ODBGetter {
 			}
 		}
 		
+		setContent();
 		return ret_connected;
 	}
 	
+	/* Populates page_* fields.  To be used immediately after connecting to the page.
+	 */
+	private static void setContent(){
+		page_title = scrapeTitle(current_date);
+		//page_poem = scrapePoem(current_date);
+	}
+	
+	/* Get title of the ODB article for the provided date
+	 */
+	private static String scrapeTitle(Calendar cal_date) {
+		boolean successful_connect = true;
+		String ret_title;
+		
+		Element titleContainer = current_page.select("h1[class=entry-title]").first();
+		ret_title = titleContainer.unwrap().toString();
+		return ret_title;
+	}
+	
+	/* Get "poem" for the ODB article for the provided date
+	 */
+	private static String scrapePoem(Calendar cal_date) {
+		boolean successful_connect = true;
+		String ret_title = null;
+		
+		// check if we need to change the page
+		if ( !sameDate(cal_date, current_date) ) {
+			successful_connect = setPage(cal_date);
+		}
+		if ( !successful_connect ) {
+			return null;
+		}
+		
+		//Element titleContainer = current_page.select("h1[class=entry-title]").first();
+		//ret_title = titleContainer.unwrap().toString();
+		return ret_title;
+	}
 	/* Helper for checking dates and ignoring unnecessary fields.
 	 */
 	private static boolean sameDate(Calendar date1, Calendar date2) {
@@ -106,5 +114,10 @@ public abstract class ODBGetter {
 	private static Document current_page = null;
 	private static Calendar current_date = null;
 	private static ODBMonth current_odb_month = null;
+	
+	private static String page_title;
+	private static String page_paragraphs;
+	private static String page_poem;
+	private static String page_thought_box;
 }
 

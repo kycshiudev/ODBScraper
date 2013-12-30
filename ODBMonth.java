@@ -20,7 +20,7 @@ public class ODBMonth {
 	 */
 	public ODBMonth(Calendar cal_date) {
 		Document month_page;
-		month_as_calendar = (Calendar) cal_date.clone();
+		current_month = (Calendar) cal_date.clone();
 		
 		month_page = connectToMonthPage(cal_date);
 		if (month_page == null) {
@@ -43,7 +43,7 @@ public class ODBMonth {
 	
 	public boolean sameMonth(Calendar cal_date) {
 		boolean month_match, year_match;
-		Calendar my_date = this.month_as_calendar;
+		Calendar my_date = this.current_month;
 		
 		month_match = my_date.get(Calendar.MONTH) == cal_date.get(Calendar.MONTH);
 		year_match = my_date.get(Calendar.YEAR) == cal_date.get(Calendar.YEAR);
@@ -52,7 +52,7 @@ public class ODBMonth {
 	}
 	
 	public boolean sameMonth(ODBMonth other) {
-		return this.sameMonth(other.month_as_calendar);
+		return this.sameMonth(other.current_month);
 	}
 	
 	/* Used by the constructor to extract the Document from the ODB page for 
@@ -105,7 +105,7 @@ public class ODBMonth {
 	}
 	
 	public boolean created_successfully;
-	public Calendar month_as_calendar;
+	public Calendar current_month;
 	
 	private static final String ODB_URL = "http://odb.org/";
 	private static final short MONTH_CAPACITY = 31;
