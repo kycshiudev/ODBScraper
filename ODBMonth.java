@@ -28,7 +28,7 @@ public class ODBMonth {
 			return;
 		}
 		
-		populateLinksByMonth(cal_date, month_page);
+		populateLinksByMonth(current_month, month_page);
 		created_successfully = true;
 	}
 	
@@ -102,6 +102,7 @@ public class ODBMonth {
 			links_by_month.add(link_node.attr("href"));
 			cal_date.add(Calendar.DATE, 1);
 		}
+		cal_date.set(Calendar.MONTH, start_month);
 	}
 	
 	public boolean created_successfully;

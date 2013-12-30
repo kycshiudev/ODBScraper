@@ -58,12 +58,28 @@ public class ODBScrapper{
 		//System.out.println(ODBGetter.getPoem(cal));
 	}
 	
+	/* Try ODBArticle methods
+	 */
+	static void ODBArticleExamples() {
+		Calendar cal = Calendar.getInstance();
+		cal.clear();
+		cal.set(2013, 3, 3);
+	
+		// populate links by month
+		ODBMonth testMonth = new ODBMonth(cal);
+		System.out.println(testMonth.urlForDate(cal));
+		
+		ODBArticle testArticle = new ODBArticle(testMonth.urlForDate(cal));
+		System.out.println("article title: "+testArticle.page_title);
+		System.out.println("article poem: "+testArticle.page_poem);
+	}
+	
 	/* Try ODBMonth methods
 	 */
 	static void ODBMonthExamples() {
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
-		cal.set(2013, 1, 1);
+		cal.set(2013, 1, 5);
 	
 		// populate links by month
 		ODBMonth testMonth = new ODBMonth(cal);
@@ -71,6 +87,7 @@ public class ODBScrapper{
 				+ "/" +testMonth.current_month.get(Calendar.DATE));
 		System.out.println(testMonth.urlForDate(cal));
 		System.out.println(testMonth.urlForDate(9));
+		System.out.println(testMonth.urlForDate(testMonth.current_month));
 	}
 	
 	public static void main (String[] args)
@@ -78,7 +95,8 @@ public class ODBScrapper{
 		//example1();
 		//example2();
 		
-		ODBGetterExamples();
+		//ODBGetterExamples();
+		ODBArticleExamples();
 		//ODBMonthExamples();
 	}
 	
