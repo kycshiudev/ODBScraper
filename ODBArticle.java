@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.io.IOException;
 
 /* Holds data from a given ODB article page
@@ -34,25 +35,36 @@ public class ODBArticle {
 	/* Populates page_* fields.  To be used immediately after connecting to the page.
 	 */
 	private void setContent(){
-		page_title = scrapeTitle(current_date);
-		page_poem = scrapePoem(current_date);
+		page_title = scrapeTitle();
+		scrapeParagraphs();
+		page_poem = scrapePoem();
+		page_thought_box = scrapeThoughtBox();
 	}
 	
 	/* Get title of the ODB article for the provided date
 	 */
-	private String scrapeTitle(Calendar cal_date) {
-		boolean successful_connect = true;
-		String ret_title;
-		
+	private String scrapeTitle() {
+		String ret_title = "";
 		Element titleContainer = current_page.select("h1[class=entry-title]").first();
 		ret_title = titleContainer.unwrap().toString();
 		return ret_title;
 	}
 	
+	/* Get the paragraphs of the ODB article for the provided date
+	 */
+	private void scrapeParagraphs() {
+		page_paragraphs = new ArrayList<String>();
+		Element contentContainer = current_page.select("section[class=entry-content]").first();
+		Elements paragraphs = contentContainer.select("p");
+		for (int par_index = 0; par_index < paragraphs.size(); par_index++) {
+			Element paragraph = paragraphs.get(par_index);
+			page_paragraphs.add(paragraph.unwrap().toString());
+		}		
+	}
+	
 	/* Get "poem" for the ODB article for the provided date
 	 */
-	private String scrapePoem(Calendar cal_date) {
-		boolean successful_connect = true;
+	private String scrapePoem() {
 		String ret_poem = "";
 		
 		List<Node> poemTextNodes = current_page.select("div.poem-box").first().childNodes();
@@ -67,6 +79,15 @@ public class ODBArticle {
 		}
 		
 		return ret_poem;
+	}
+	
+	/* Get "thought-box" for the ODB article for the provided date
+	 */
+	private String scrapeThoughtBox() {
+		String ret_thought_box = "";
+		Element boxContainer = current_page.select("div.thought-box").first();
+		ret_thought_box = boxContainer.unwrap().toString();
+		return ret_thought_box;
 	}
 	
 	/* Helper for checking dates and ignoring unnecessary fields.
@@ -101,7 +122,7 @@ public class ODBArticle {
 	}
 	
 	public String page_title;
-	public String page_paragraphs;
+	public ArrayList<String> page_paragraphs;
 	public String page_poem;
 	public String page_thought_box;
 	public Calendar current_date = null;

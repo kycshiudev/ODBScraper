@@ -70,8 +70,12 @@ public class ODBScrapper{
 		System.out.println(testMonth.urlForDate(cal));
 		
 		ODBArticle testArticle = new ODBArticle(testMonth.urlForDate(cal));
-		System.out.println("article title: "+testArticle.page_title);
-		System.out.println("article poem: "+testArticle.page_poem);
+		System.out.println("article title: \t\t"+testArticle.page_title);
+		for (String par : testArticle.page_paragraphs) {
+			System.out.println("article paragraph: \t"+par);
+		}
+		System.out.println("article poem: \t\t"+testArticle.page_poem);
+		System.out.println("article thought box: \t"+testArticle.page_thought_box);
 	}
 	
 	/* Try ODBMonth methods
