@@ -39,6 +39,8 @@ public class ODBArticle {
 		scrapeParagraphs();
 		page_poem = scrapePoem();
 		page_thought_box = scrapeThoughtBox();
+		
+		next_page_url = current_page.select("a[class=article-next]").first().attr("href");
 	}
 	
 	/* Get title of the ODB article for the provided date
@@ -125,11 +127,11 @@ public class ODBArticle {
 	public ArrayList<String> page_paragraphs;
 	public String page_poem;
 	public String page_thought_box;
+	public String next_page_url = null;
 	public Calendar current_date = null;
 	public boolean created_successfully;
 	
 	private Document current_page = null;
-	private String next_page_url = null;
 	
 	private static final String ODB_URL = "http://odb.org/";
 	private static final short CONNECT_RETRIES = 5;

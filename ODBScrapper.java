@@ -63,7 +63,7 @@ public class ODBScrapper{
 	static void ODBArticleExamples() {
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
-		cal.set(2013, 3, 3);
+		cal.set(1999, 5, 30);
 	
 		// populate links by month
 		ODBMonth testMonth = new ODBMonth(cal);
@@ -76,6 +76,7 @@ public class ODBScrapper{
 		}
 		System.out.println("article poem: \t\t"+testArticle.page_poem);
 		System.out.println("article thought box: \t"+testArticle.page_thought_box);
+		System.out.println("next page url: \t"+testArticle.next_page_url);
 	}
 	
 	/* Try ODBMonth methods
