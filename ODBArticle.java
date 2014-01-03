@@ -32,6 +32,16 @@ public class ODBArticle {
 		setContent();
 	}
 	
+	public String pageParagraphs() {
+		String ret_paragraphs = "";
+		short par;
+		for (par = 0; par < page_paragraphs.size() - 1; par++) {
+			ret_paragraphs += page_paragraphs.get(par) + newline_seq + newline_seq;
+		}
+		ret_paragraphs += page_paragraphs.get(par);
+		return ret_paragraphs;
+	}
+	
 	/* Populates page_* fields.  To be used immediately after connecting to the page.
 	 */
 	private void setContent(){
@@ -73,7 +83,7 @@ public class ODBArticle {
 		for(int node_index = 0; node_index < poemTextNodes.size(); node_index++) {
 			String text = poemTextNodes.get(node_index).toString();
 			if (text.equals("<br />")) {
-				ret_poem += "\n";
+				ret_poem += newline_seq;
 			} 
 			else {
 				ret_poem += text;
@@ -132,6 +142,7 @@ public class ODBArticle {
 	public boolean created_successfully;
 	
 	private Document current_page = null;
+	private static String newline_seq = "{\\\\line}";
 	
 	private static final String ODB_URL = "http://odb.org/";
 	private static final short CONNECT_RETRIES = 5;

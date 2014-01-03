@@ -3,6 +3,7 @@ import org.jsoup.nodes.*;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Hashtable;
 
 public class ODBScrapper{
 
@@ -95,14 +96,64 @@ public class ODBScrapper{
 		System.out.println(testMonth.urlForDate(testMonth.current_month));
 	}
 	
+	static void XMLOutputExamples() {
+		String templatePathFilename = "C:\\Users\\Kenny\\Desktop\\testrtf1.doc";
+		String outputPathFilename = "C:\\Users\\Kenny\\Desktop\\word_output.doc";
+
+		Hashtable ht = new Hashtable();
+		ht.put("TEST_TITLE1","REPLACE1");
+		
+		XMLOutputter.generateWordDoc(ht, templatePathFilename, outputPathFilename);
+		System.out.println("finish doc processing");
+	}
+	
+	/*
+	static void Docx4jOutputExamples() {
+		try{
+			WordprocessingMLPackage template = TestOutputter.getTemplate("C:\\Users\\Kenny\\Desktop\\test-devotional-template.docx");
+			TestOutputter.replacePlaceholder(template, "TEST_TITLE1", "REPLACEMENT_TITLE1");
+			TestOutputter.writeDocxToStream(template, "C:\\Users\\Kenny\\Desktop\\rep-devotional-template.docx");
+			System.out.println("finish");
+		}
+		catch (Exception e){
+			System.out.println("--Document error: "+e.getMessage());
+		}
+	}
+	*/
+	
 	public static void main (String[] args)
 	{
 		//example1();
 		//example2();
 		
 		//ODBGetterExamples();
-		ODBArticleExamples();
+		//ODBArticleExamples();
 		//ODBMonthExamples();
+		//Docx4jOutputExamples();
+		//XMLOutputExamples();
+		
+		//do real stuff for now
+		ODBArticle testArticle = new ODBArticle("http://odb.org/2014/01/05/adoption/");
+		
+		String templatePathFilename = "C:\\Users\\Kenny\\Desktop\\testrtf.rtf";
+		String outputPathFilename = "C:\\Users\\Kenny\\Desktop\\testrtfout.doc";
+
+		Hashtable ht = new Hashtable();
+//		ht.put("TITLE0",testArticle.page_title);
+//		ht.put("PARAGRAPH0", testArticle.pageParagraphs());
+//		ht.put("POEM0", testArticle.page_poem);
+//		ht.put("THOUGHTBOX0", testArticle.page_thought_box);
+//		
+		for (short day = 0; day < 7; day++) {
+			ht.put("TITLE"+day, testArticle.page_title);
+			ht.put("PARAGRAPH"+day, testArticle.pageParagraphs());
+			ht.put("POEM"+day, testArticle.page_poem);
+			ht.put("THOUGHTBOX"+day, testArticle.page_thought_box);
+			testArticle = new ODBArticle(testArticle.next_page_url);
+		}
+		
+		XMLOutputter.generateWordDoc(ht, templatePathFilename, outputPathFilename);
+		System.out.println("finish doc processing");
 	}
 	
 }
