@@ -39,9 +39,7 @@ public class XMLOutputter {
 			String thisLine;
 			int i = 0;
 			
-			while ((thisLine = reader.readLine()) != null) {
-				System.out.println(i);
-				
+			while ((thisLine = reader.readLine()) != null) {				
 				for (java.util.Enumeration e = ht.keys(); e.hasMoreElements();) {
 					String name = (String) e.nextElement();
 					String value = ht.get(name).toString();

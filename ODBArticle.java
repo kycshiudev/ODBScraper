@@ -42,6 +42,11 @@ public class ODBArticle {
 		return ret_paragraphs;
 	}
 	
+	public String pageDate() {
+		SimpleDateFormat date_format = new SimpleDateFormat(DATE_FORMAT_PATTERN);
+		return date_format.format(current_date.getTime());
+	}
+	
 	/* Populates page_* fields.  To be used immediately after connecting to the page.
 	 */
 	private void setContent(){
@@ -124,8 +129,9 @@ public class ODBArticle {
 		int year, month, day;
 		Calendar ret_cal = Calendar.getInstance();
 		
+		// For Calendar: Jan = 0, Feb = 1, etc. so month is decremented;
 		year = Integer.valueOf(date_str.substring(0, 4));
-		month = Integer.valueOf(date_str.substring(5, 7));
+		month = Integer.valueOf(date_str.substring(5, 7)) - 1;
 		day = Integer.valueOf(date_str.substring(8, 10));
 		
 		ret_cal.set(year, month, day);
@@ -146,5 +152,6 @@ public class ODBArticle {
 	
 	private static final String ODB_URL = "http://odb.org/";
 	private static final short CONNECT_RETRIES = 5;
+	private static final String DATE_FORMAT_PATTERN = "EEE, MMMM dd, yyyy";
 }
 

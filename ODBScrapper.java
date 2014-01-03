@@ -145,6 +145,7 @@ public class ODBScrapper{
 //		ht.put("THOUGHTBOX0", testArticle.page_thought_box);
 //		
 		for (short day = 0; day < 7; day++) {
+			ht.put("DATE"+day, testArticle.pageDate());
 			ht.put("TITLE"+day, testArticle.page_title);
 			ht.put("PARAGRAPH"+day, testArticle.pageParagraphs());
 			ht.put("POEM"+day, testArticle.page_poem);
