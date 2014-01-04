@@ -51,6 +51,8 @@ public class ODBArticle {
 	 */
 	private void setContent(){
 		page_title = scrapeTitle();
+		page_read = scrapeRead();
+		page_verse = scrapeVerse();
 		scrapeParagraphs();
 		page_poem = scrapePoem();
 		page_thought_box = scrapeThoughtBox();
@@ -67,7 +69,25 @@ public class ODBArticle {
 		return ret_title;
 	}
 	
-	/* Get the paragraphs of the ODB article for the provided date
+	/* Get the "Read: " verses for the article
+	 */
+	private String scrapeRead() {
+		String ret_read = "";
+		Element readContainer = current_page.select("a[title=scripture reference verse]").first();
+		ret_read = readContainer.unwrap().toString();
+		return ret_read;
+	}
+	
+	/* Get the quoted verse for the article
+	 */
+	private String scrapeVerse() {
+		String ret_verse = "";
+		Element verseContainer = current_page.select("div.meta-box").get(1);
+		ret_verse = verseContainer.text();
+		return ret_verse;
+	}
+	
+	/* Get the paragraphs of the ODB article
 	 */
 	private void scrapeParagraphs() {
 		page_paragraphs = new ArrayList<String>();
@@ -140,6 +160,8 @@ public class ODBArticle {
 	}
 	
 	public String page_title;
+	public String page_read;
+	public String page_verse;
 	public ArrayList<String> page_paragraphs;
 	public String page_poem;
 	public String page_thought_box;
