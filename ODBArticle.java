@@ -95,7 +95,7 @@ public class ODBArticle {
 		Elements paragraphs = contentContainer.select("p");
 		for (int par_index = 0; par_index < paragraphs.size(); par_index++) {
 			Element paragraph = paragraphs.get(par_index);
-			page_paragraphs.add(paragraph.unwrap().toString());
+			page_paragraphs.add(paragraph.text());
 		}		
 	}
 	

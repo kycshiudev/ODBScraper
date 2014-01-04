@@ -86,7 +86,7 @@ public class ODBScrapper{
 	static void ODBArticleExamples() {
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
-		cal.set(1999, 5, 30);
+		cal.set(2014, 0, 11);
 	
 		// populate links by month
 		ODBMonth testMonth = new ODBMonth(cal);
@@ -97,6 +97,7 @@ public class ODBScrapper{
 		for (String par : testArticle.page_paragraphs) {
 			System.out.println("article paragraph: \t"+par);
 		}
+		
 		System.out.println("article poem: \t\t"+testArticle.page_poem);
 		System.out.println("article thought box: \t"+testArticle.page_thought_box);
 		System.out.println("next page url: \t"+testArticle.next_page_url);
@@ -141,12 +142,11 @@ public class ODBScrapper{
 		//XMLOutputExamples();
 		//scrapeExample();
 		
-		
 		//do real stuff for now
 		ODBArticle testArticle = new ODBArticle("http://odb.org/2014/01/05/adoption/");
 		
-		String templatePathFilename = "C:\\Users\\Kenny\\Desktop\\testrtf.rtf";
-		String outputPathFilename = "C:\\Users\\Kenny\\Desktop\\testrtfout.doc";
+		String templatePathFilename = ".\\testrtf.rtf";
+		String outputPathFilename = ".\\testrtfout.doc";
 
 		Hashtable ht = new Hashtable();	
 		for (short day = 0; day < 7; day++) {
@@ -157,12 +157,12 @@ public class ODBScrapper{
 			ht.put("PARAGRAPH"+day, testArticle.pageParagraphs());
 			ht.put("POEM"+day, testArticle.page_poem);
 			ht.put("THOUGHTBOX"+day, testArticle.page_thought_box);
+			
 			testArticle = new ODBArticle(testArticle.next_page_url);
 		}
 		
 		XMLOutputter.generateWordDoc(ht, templatePathFilename, outputPathFilename);
 		System.out.println("finish doc processing");
-		
 	}
 	
 }
