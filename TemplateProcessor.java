@@ -18,8 +18,27 @@ import java.util.Hashtable;
  * @date 20080327
  */
 
-public class XMLOutputter {
+public class TemplateProcessor {
 	
+	public static void generateWordDoc(String startURL, String templatePath, String outputPath) {
+		ODBArticle currentArticle = new ODBArticle("http://odb.org/2014/01/05/adoption/");
+
+		Hashtable ht = new Hashtable();	
+		for (short day = 0; day < 7; day++) {
+			ht.put("DATE"+day, currentArticle.pageDate());
+			ht.put("TITLE"+day, currentArticle.page_title);
+			ht.put("READ"+day, currentArticle.page_read);
+			ht.put("VERSE"+day, currentArticle.page_verse);
+			ht.put("PARAGRAPH"+day, currentArticle.pageParagraphs());
+			ht.put("POEM"+day, currentArticle.page_poem);
+			ht.put("THOUGHTBOX"+day, currentArticle.page_thought_box);
+
+			currentArticle = new ODBArticle(currentArticle.next_page_url);
+		}
+
+		templateReplace(ht, templatePath, outputPath);
+		System.out.println("finish doc processing");
+	}
 	/**
 	 * 
 	 * @param ht
@@ -28,7 +47,7 @@ public class XMLOutputter {
 	 * @author C. Peter Chen of http://dev-notes.com
 	 * @date 20080327
 	 */
-	public static void generateWordDoc(Hashtable ht, String templatePathFilename, String outputPathFilename) {	
+	private static void templateReplace(Hashtable ht, String templatePathFilename, String outputPathFilename) {	
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(templatePathFilename));
 			
