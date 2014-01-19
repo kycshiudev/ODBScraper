@@ -52,7 +52,6 @@ public class TemplateProcessor {
 				i++;
 			}
 			writer.close();
-			System.out.println("done");
 		}
 		catch (Exception e) {
 			System.out.println("exception!=" + e);
