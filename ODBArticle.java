@@ -82,7 +82,7 @@ public class ODBArticle {
 	 */
 	private String scrapeVerse() {
 		String ret_verse = "";
-		Element verseContainer = current_page.select("div.meta-box").get(1);
+		Element verseContainer = current_page.select("div.meta-box").get(2);
 		ret_verse = verseContainer.text();
 		return ret_verse;
 	}
