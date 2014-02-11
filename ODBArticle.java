@@ -107,9 +107,13 @@ public class ODBArticle {
 		List<Node> poemTextNodes = current_page.select("div.poem-box").first().childNodes();
 		for(int node_index = 0; node_index < poemTextNodes.size(); node_index++) {
 			String text = poemTextNodes.get(node_index).toString();
+			
 			if (text.equals("<br />")) {
 				ret_poem += newline_seq;
 			} 
+			else if (text.contains("<dash>")) {
+				ret_poem  += dash_seq;
+			}
 			else {
 				ret_poem += text;
 			}
@@ -171,6 +175,7 @@ public class ODBArticle {
 	
 	private Document current_page = null;
 	private static String newline_seq = "{\\\\line}";
+	private static String dash_seq = "{\\\\emdash}";
 	
 	private static final String ODB_URL = "http://odb.org/";
 	private static final short CONNECT_RETRIES = 5;

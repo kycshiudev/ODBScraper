@@ -53,13 +53,13 @@ public class SwingMenu extends JPanel implements ActionListener {
      */
     private void initializeFileDialogs() {
     	loadFileDialog = new FileDialog((JFrame)SwingUtilities.getRoot(this), "Choose a file", FileDialog.LOAD);
-        loadFileDialog.setDirectory("C:\\");
-        loadFileDialog.setFile("*.rtf");
+        loadFileDialog.setDirectory(DIALOG_DEFAULT_DIRECTORY);
+        loadFileDialog.setFile(DIALOG_LOAD_FILE_EXT);
         loadFileDialog.setVisible(false);
         
         saveFileDialog = new FileDialog((JFrame)SwingUtilities.getRoot(this), "Choose a file", FileDialog.SAVE);
-        saveFileDialog.setDirectory("C:\\");
-        saveFileDialog.setFile("*.rtf");
+        saveFileDialog.setDirectory(DIALOG_DEFAULT_DIRECTORY);
+        saveFileDialog.setFile(DIALOG_SAVE_FILE_EXT);
         saveFileDialog.setVisible(false);
     }
     
@@ -203,7 +203,7 @@ public class SwingMenu extends JPanel implements ActionListener {
     
     private static final int FIELD_LENGTH = 35;
     
-    private static final String TEXTBOX_TEMPLATE = ".\\templates\\textbox_rtf.rtf";
-	private static final String NEWPAGE_TEMPLATE = ".\\templates\\newpage_rtf.rtf";
-	private static final String OUTPUT_NAME = ".\\testout.doc";
+    private static final String DIALOG_DEFAULT_DIRECTORY = "C:\\";
+    private static final String DIALOG_LOAD_FILE_EXT = "*.rtf";
+    private static final String DIALOG_SAVE_FILE_EXT = "*.*";
 }

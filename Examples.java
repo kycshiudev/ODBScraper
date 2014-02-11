@@ -85,7 +85,7 @@ public class Examples {
 	public static void ODBArticleExamples() {
 		Calendar cal = Calendar.getInstance();
 		cal.clear();
-		cal.set(2014, 0, 11);
+		cal.set(2014, 1, 12);
 	
 		// populate links by month
 		ODBMonth testMonth = new ODBMonth(cal);
@@ -130,4 +130,8 @@ public class Examples {
 		System.out.println("finish doc processing");
 	}
 	*/
+	
+	public static void main (String [] args){
+		ODBArticleExamples();
+	}
 }
