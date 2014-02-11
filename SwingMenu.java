@@ -9,49 +9,8 @@ public class SwingMenu extends JPanel implements ActionListener {
         super(new GridBagLayout());
  
         initializeFileDialogs();
-        
-        // initialize UI components
-        JLabel urlLabel = new JLabel(URL_FIELD_LABEL);
-        JLabel templateLabel = new JLabel(TEMPLATE_FIELD_LABEL);
-        JLabel outfileLabel = new JLabel(OUTFILE_FIELD_LABEL);
-        statusLabel = new JLabel(" ");
-        urlField = new JTextField(FIELD_LENGTH);
-        templateField = new JTextField(FIELD_LENGTH);
-        outfileField = new JTextField(FIELD_LENGTH);
-        browseTemplateButton = new JButton("browse");
-        browseOutfileButton = new JButton("browse");
-        okButton = new JButton("OK");
-        
-        urlLabel.setLabelFor(urlField);
-        templateLabel.setLabelFor(templateField);
-        outfileLabel.setLabelFor(outfileField);
-        
-        browseTemplateButton.setActionCommand("browseTemplateButton");
-        browseTemplateButton.addActionListener(this);
-        browseOutfileButton.setActionCommand("browseOutfileButton");
-        browseOutfileButton.addActionListener(this);
-        okButton.setActionCommand("okButton");
-        okButton.addActionListener(this);
- 
-        //Add Components to this panel.
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridwidth = GridBagConstraints.REMAINDER;
- 
-        c.fill = GridBagConstraints.HORIZONTAL;
-        add(urlLabel, c);
-        add(urlField, c);
-        add(templateLabel, c);
-        add(templateField, c);
-        add(browseTemplateButton, c);
-        add(outfileLabel, c);
-        add(outfileField, c);
-        add(browseOutfileButton, c);
-        
-        c.fill = GridBagConstraints.CENTER;
-        add(okButton, c);
-        
-        c.fill = GridBagConstraints.HORIZONTAL;
-        add(statusLabel, c);
+        initializeUIComponents();
+        arrangeUIComponents();
     }
 	
 	/* Determine which event was triggered and call the correct function.
@@ -104,6 +63,75 @@ public class SwingMenu extends JPanel implements ActionListener {
         saveFileDialog.setVisible(false);
     }
     
+    /* Initialize component properties, but does not place them on the grid
+     */
+    private void initializeUIComponents() {
+    	// call constructors
+        urlLabel = new JLabel(URL_FIELD_LABEL);
+        templateLabel = new JLabel(TEMPLATE_FIELD_LABEL);
+        outfileLabel = new JLabel(OUTFILE_FIELD_LABEL);
+        statusLabel = new JLabel(" ");
+        
+        urlField = new JTextField(FIELD_LENGTH);
+        templateField = new JTextField(FIELD_LENGTH);
+        outfileField = new JTextField(FIELD_LENGTH);
+        
+        browseTemplateButton = new JButton("browse");
+        browseOutfileButton = new JButton("browse");
+        okButton = new JButton("OK");
+        
+        // set other properties
+        urlLabel.setLabelFor(urlField);
+        templateLabel.setLabelFor(templateField);
+        outfileLabel.setLabelFor(outfileField);
+        
+        browseTemplateButton.setActionCommand("browseTemplateButton");
+        browseTemplateButton.addActionListener(this);
+        browseOutfileButton.setActionCommand("browseOutfileButton");
+        browseOutfileButton.addActionListener(this);
+        okButton.setActionCommand("okButton");
+        okButton.addActionListener(this);
+    }
+    
+    /* Place UI components on the grid
+     */
+    private void arrangeUIComponents() {
+    	//Define constraints
+    	GridBagConstraints urlFieldConstraint = new GridBagConstraints();
+        urlFieldConstraint.gridwidth = GridBagConstraints.REMAINDER;
+        urlFieldConstraint.fill = GridBagConstraints.HORIZONTAL;
+    	
+        GridBagConstraints textFieldConstraint = new GridBagConstraints();
+        textFieldConstraint.weightx = 1.0;
+        textFieldConstraint.gridwidth = GridBagConstraints.RELATIVE;
+        textFieldConstraint.fill = GridBagConstraints.HORIZONTAL;
+        
+        GridBagConstraints browseButtonConstraint = new GridBagConstraints();
+        browseButtonConstraint.gridwidth = GridBagConstraints.REMAINDER;
+        browseButtonConstraint.fill = GridBagConstraints.HORIZONTAL;
+        
+        GridBagConstraints okButtonConstraint = new GridBagConstraints();
+        okButtonConstraint.fill = GridBagConstraints.NONE;
+        okButtonConstraint.anchor = GridBagConstraints.CENTER;
+        okButtonConstraint.gridwidth = GridBagConstraints.REMAINDER;
+        
+        //Add components to grid
+        add(urlLabel, urlFieldConstraint);
+        add(urlField, urlFieldConstraint);
+        
+        add(templateLabel, urlFieldConstraint);
+        add(templateField, textFieldConstraint);
+        add(browseTemplateButton, browseButtonConstraint);
+        
+        add(outfileLabel, urlFieldConstraint);
+        add(outfileField, textFieldConstraint);
+        add(browseOutfileButton, browseButtonConstraint);
+        
+        add(okButton, okButtonConstraint);
+        
+        add(statusLabel, urlFieldConstraint);
+    }
+    
     /* Opens a file dialog for getting a file and returns the full path to it
      */
     private String browseForFile() {
@@ -152,6 +180,10 @@ public class SwingMenu extends JPanel implements ActionListener {
     }
 	
     // UI elements
+    protected JLabel urlLabel;
+    protected JLabel templateLabel;
+    protected JLabel outfileLabel;
+    
 	protected JTextField urlField;
 	protected JTextField templateField;
 	protected JTextField outfileField;
