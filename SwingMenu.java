@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.*;
 
@@ -27,7 +26,7 @@ public class SwingMenu extends JPanel implements ActionListener {
 			outfileField.setText(pathToOutfile);
 		}
 		else if (actionCommand.equals("okButton")) {
-			generate();
+			generator.execute();
 		}
     }
 	
@@ -178,6 +177,19 @@ public class SwingMenu extends JPanel implements ActionListener {
         ODBScraper.generateWordDoc(urlText, templateText, outfileText);
         statusLabel.setText("DONE!");
     }
+    
+    private SwingWorker generator = new SwingWorker<Boolean, Void>() {
+    	public Boolean doInBackground() {
+    		String urlText = urlField.getText();
+        	String templateText = templateField.getText();
+        	String outfileText = outfileField.getText();
+            
+            statusLabel.setText("Generating Your Devotional...");
+            ODBScraper.generateWordDoc(urlText, templateText, outfileText);
+            statusLabel.setText("DONE!");
+            return true;
+    	}
+    };
 	
     // UI elements
     protected JLabel urlLabel;
