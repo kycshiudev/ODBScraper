@@ -9,7 +9,9 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.io.IOException;
 
-/* Holds the links that are on ODB's sidebar calendar. Makes them available in
+/* NEEDS UPDATE OR REMOVAL: ODB no longer has the calendar on the sidebar.
+ * 
+ * Holds the links that are on ODB's sidebar calendar. Makes them available in
  * a convenient package for the ODBGetter.
  */
 public class ODBMonth {
@@ -57,6 +59,9 @@ public class ODBMonth {
 	
 	/* Used by the constructor to extract the Document from the ODB page for 
 	 * the month given by cal_date.
+	 * 
+	 * DEPRECATED!  ODB no longer has the links for the month available on the
+	 * month page
 	 */
 	private Document connectToMonthPage(Calendar cal_date) {
 		String year_month_str, year, month, month_url;

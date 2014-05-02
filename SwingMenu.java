@@ -6,7 +6,7 @@ import javax.swing.*;
 public class SwingMenu extends JPanel implements ActionListener {
 	public SwingMenu() {
         super(new GridBagLayout());
- 
+        
         initializeFileDialogs();
         initializeUIComponents();
         arrangeUIComponents();
@@ -180,13 +180,7 @@ public class SwingMenu extends JPanel implements ActionListener {
     
     private SwingWorker generator = new SwingWorker<Boolean, Void>() {
     	public Boolean doInBackground() {
-    		String urlText = urlField.getText();
-        	String templateText = templateField.getText();
-        	String outfileText = outfileField.getText();
-            
-            statusLabel.setText("Generating Your Devotional...");
-            ODBScraper.generateWordDoc(urlText, templateText, outfileText);
-            statusLabel.setText("DONE!");
+    		generate();
             return true;
     	}
     };

@@ -83,15 +83,8 @@ public class Examples {
 	/* Try ODBArticle methods
 	 */
 	public static void ODBArticleExamples() {
-		Calendar cal = Calendar.getInstance();
-		cal.clear();
-		cal.set(2014, 1, 12);
-	
-		// populate links by month
-		ODBMonth testMonth = new ODBMonth(cal);
-		System.out.println(testMonth.urlForDate(cal));
-		
-		ODBArticle testArticle = new ODBArticle(testMonth.urlForDate(cal));
+		String testURL = "http://odb.org/2014/05/04/tears-of-gratitude/";
+		ODBArticle testArticle = new ODBArticle(testURL);
 		System.out.println("article title: \t\t"+testArticle.page_title);
 		for (String par : testArticle.page_paragraphs) {
 			System.out.println("article paragraph: \t"+par);
@@ -118,6 +111,22 @@ public class Examples {
 		System.out.println(testMonth.urlForDate(testMonth.current_month));
 	}
 	
+	static void RuntimeExamples(){
+		String tempPath = "D:\\Projects\\Church Projects\\ODB Scraper\\templates\\";
+		try {
+			Runtime r = Runtime.getRuntime();
+			r.exec("cd D:");
+			r.exec("cd "+tempPath);
+			r.exec("pdflatex "+"latex.tex");
+			
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
 	/* for checking templateReplace.  make it public first if you need to use this
 	public static void XMLOutputExamples() {
 		String templatePathFilename = "C:\\Users\\Kenny\\Desktop\\testrtf1.doc";
@@ -133,5 +142,6 @@ public class Examples {
 	
 	public static void main (String [] args){
 		ODBArticleExamples();
+		//RuntimeExamples();
 	}
 }

@@ -91,7 +91,7 @@ public class ODBArticle {
 	 */
 	private void scrapeParagraphs() {
 		page_paragraphs = new ArrayList<String>();
-		Element contentContainer = current_page.select("section[class=entry-content]").first();
+		Element contentContainer = current_page.select("div[class=post-content]").first();
 		Elements paragraphs = contentContainer.select("p");
 		for (int par_index = 0; par_index < paragraphs.size(); par_index++) {
 			Element paragraph = paragraphs.get(par_index);
